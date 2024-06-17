@@ -39,9 +39,22 @@ const createWindow = () => {
     if (result.canceled) return null;
 
     const directoryPath = result.filePaths[0];
-    const files = fs.readdirSync(directoryPath);
+
+    const allFiles = fs.readdirSync(directoryPath);
+    const files = allFiles.filter((file) => fs.lstatSync(path.join(directoryPath, file)).isFile());
 
     return { directoryPath, files };
+  });
+
+  ipcMain.handle("open-file", (req, fileName) => {
+    console.log(fileName);
+    let file = fs.readFileSync(fileName, "utf8");
+    return file;
+  });
+
+  ipcMain.handle("save-file", (req, file) => {
+    console.log(file);
+    fs.writeFileSync(file.path, file.content);
   });
 };
 

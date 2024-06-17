@@ -28,6 +28,9 @@
 
 import "./index.css";
 
+let workingDirectory = "";
+let openFile = "";
+
 console.log('👋 This message is being logged by "renderer.js", included via Vite');
 console.log(api.title);
 
@@ -38,7 +41,27 @@ document.querySelector("#openFolder").addEventListener("click", async () => {
   document.querySelector("#fileList").innerHTML = "";
 
   document.querySelector("#directory").innerHTML = result.directoryPath;
+  workingDirectory = result.directoryPath;
   result.files.forEach((file) => {
-    document.querySelector("#fileList").innerHTML += `<li class="hover:bg-blue-500 hover:text-white">${file}</li>`;
+    document.querySelector("#fileList").innerHTML += `<li class="hover:bg-blue-500 hover:text-white" data-file="${file}">${file}</li>`;
   });
 });
+
+document.querySelector("#fileList").addEventListener("click", async (event) => {
+  if (event.target && event.target.nodeName === "LI") {
+    let file = event.target.getAttribute("data-file");
+    openFile = file;
+    let result = await api.openFile(workingDirectory + "\\" + file);
+    document.querySelector("#textEditor").value = result;
+  }
+});
+
+function saveFile() {
+  let fileContent = document.querySelector("#textEditor").value;
+  let path = workingDirectory + "\\" + openFile;
+  let file = { path: path, content: fileContent };
+
+  api.saveFile(file);
+}
+
+document.querySelector("#save").addEventListener("click", saveFile);

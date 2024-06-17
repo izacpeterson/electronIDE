@@ -9,4 +9,11 @@ contextBridge.exposeInMainWorld("api", {
     let result = await ipcRenderer.invoke("open-dir");
     return result;
   },
+  openFile: async (file) => {
+    let result = await ipcRenderer.invoke("open-file", file);
+    return result;
+  },
+  saveFile: async (file) => {
+    ipcRenderer.invoke("save-file", file);
+  },
 });
