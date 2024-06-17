@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const fs = require("fs");
 const path = require("node:path");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -29,6 +30,19 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  ipcMain.handle("open-dir", async () => {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ["openDirectory"],
+    });
+
+    if (result.canceled) return null;
+
+    const directoryPath = result.filePaths[0];
+    const files = fs.readdirSync(directoryPath);
+
+    return { directoryPath, files };
+  });
 };
 
 // This method will be called when Electron has finished

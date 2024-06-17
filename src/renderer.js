@@ -29,5 +29,16 @@
 import "./index.css";
 
 console.log('👋 This message is being logged by "renderer.js", included via Vite');
+console.log(api.title);
 
-document.querySelector("#openFolder").addEventListener("click", () => {});
+document.querySelector("#openFolder").addEventListener("click", async () => {
+  let result = await api.openDirectory();
+  console.log(result);
+
+  document.querySelector("#fileList").innerHTML = "";
+
+  document.querySelector("#directory").innerHTML = result.directoryPath;
+  result.files.forEach((file) => {
+    document.querySelector("#fileList").innerHTML += `<li class="hover:bg-blue-500 hover:text-white">${file}</li>`;
+  });
+});
