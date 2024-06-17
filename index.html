@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+  </head>
+  <body class="h-screen flex flex-col">
+    <div>
+      <button id="openFolder" class="bg-blue-500 text-white m-2 p-2">Open Folder</button>
+      <button id="openFile" class="bg-blue-500 text-white m-2 p-2">Open File</button>
+      <button id="save" class="bg-blue-500 text-white p-2 m-2">Save</button>
+
+      <span id="directory">/path/to/dir</span>
+    </div>
+    <div class="flex w-full h-screen">
+      <ul class="p-2">
+        <li>No Files to Display</li>
+      </ul>
+      <div class="flex flex-col flex-1 p-2">
+        <span>Filename.js</span>
+        <textarea id="textEditor" class="w-full h-full bg-slate-200 p-2">test</textarea>
+      </div>
+    </div>
+
+    <script type="module" src="/src/renderer.js"></script>
+  </body>
+</html>
