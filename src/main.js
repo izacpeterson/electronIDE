@@ -12,6 +12,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -29,7 +30,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   ipcMain.handle("open-dir", async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
